@@ -2,4 +2,51 @@
 
 {% block body %}
 
+<div class="container"><!--shortcut to generate a vaible locaton=> .container and .row and .col-->
+    <div class="row form-row">
+        <div class="col-md-3">
+            <h1 class="my-4 text-primary">Register An Account</h1>
+            <form class="shadow-lg p-3 rounded">
+                <div class="mb-3">
+                  <label for="Email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="Email" aria-describedby="email">
+                  
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">username</label>
+                    <input type="text" class="form-control" id="username" name="username">
+                    
+                  </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password">
+                  <div class="form-text" id="passHelp">Password should be min 6 chars</div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmpass" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmpass" name="confirmpass">
+                  </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block css %}
+<style>
+    .form-row {
+        display: flex;
+        height: 90vh;
+        justify-content: center;
+        align-items: center;
+    }
+    main{
+        background-image: url('https://images.unsplash.com/photo-1663311587248-f87e414e2ca6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
+        background-position: center;
+        background-size: cover;
+    }
+
+</style>
 {% endblock %}
