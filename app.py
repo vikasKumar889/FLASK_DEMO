@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import parking_detector as pkd
 
 db = SQLAlchemy()
 
@@ -111,7 +112,13 @@ def register():
 def logout():
     destroy_login_session()
     flash('You are logged out','success')
-    return redirect('/')    
+    return redirect('/')  
+
+@app.route('/detect', methods=['GET','POST'])
+def parking_detector():
+    if request.method == 'POST':
+        pkd.detector()
+    return render_template('parking_system.html')      
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)
