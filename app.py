@@ -47,7 +47,6 @@ def destroy_login_session():
         session.clear()    
 
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -70,7 +69,7 @@ def login():
                     if user.password == password:
                         create_login_session(user)
                         flash('Login Successfull', "success")
-                        return redirect('/')
+                        return redirect('/detect')
                     else:
                         errors['password'] = 'Password is invalid'
                 else:
@@ -108,6 +107,7 @@ def register():
             errors.append('Fill all the fields')
             flash('user account could not be created','warning')
     return render_template('register.html', error_list=errors)
+
 @app.route('/logout')
 def logout():
     destroy_login_session()

@@ -4,22 +4,28 @@
 
 <form method="post">
     <button>Start Parking Detection System</button>
+
 </form>
 
 {% endblock %}
 {% block css %}
 <style>
-    .form-row {
-        display: flex;
-        height: 90vh;
-        justify-content: center;
-        align-items: center;
-    }
-
-    main {
-        background-image: url('https://images.unsplash.com/photo-1616363088386-31c4a8414858?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
-        background-position: bottom;
-        background-size: cover;
-    }
+  main {
+    display: flex;
+    width: 100vw;
+    height: 90vh;
+    background-color: rgb(214, 239, 241);
+    background-image: url('https://images.unsplash.com/photo-1542128962-9d50ad7bf014?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2FyJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1000&q=60');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    color: rgba(79, 58, 237, 0.97);
+    font-size: 3rem;
+    gap: 1rem;
+  }
 </style>
+
 {% endblock %}
