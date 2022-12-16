@@ -118,7 +118,13 @@ def logout():
 def parking_detector():
     if request.method == 'POST':
         pkd.detector()
-    return render_template('parking_system.html')      
+    return render_template('parking_system.html')  
+
+@app.route('/generate', methods=['GET','POST'])
+def create():
+    if request.method == 'POST':
+        pkd.generate()
+    return render_template('create.html')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)
