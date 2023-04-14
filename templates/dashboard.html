@@ -1,11 +1,10 @@
 {% extends 'layout/base.html' %}
 
 {% block body %}
-
-<div class="container my-4 bg-white">
+<div class="container my-4">
   <div class="row">
     <div class="col-md-12">
-      <div >
+      <div class="table-responsive-md">
         {% if locs %}
         <table class="table table-success">
           <thead>
@@ -31,48 +30,23 @@
               <td>{{row.height}}</td>
               <td>{{row.created_on.date()}}</td>
               <td>
-                <a type="Parking" class="btn btn-lg btn-outline-dark" href="/detect/camera/{{row.id}}">🎥 Open Camera </a>
+                <a href="parking/delete/{{row.id}}" class="btn btn-danger">🗑️ Delete</a>
               </td>
             </tr>
             {% endfor %}
           </tbody>
-        </table>     
+        </table>        
         {% else %}
         <div class="p-5 mb-4 bg-light rounded-3">
           <div class="container-fluid py-5">
             <h1 class="display-5 fw-bold">Add a new parking location</h1>
             <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
-            <a type="Parking" class="btn btn-lg btn-outline-dark" href="/detect/start">Parking Detection System</a>
             <a class="btn btn-primary btn-lg" type="button" href="/form">Create</a>
           </div>
         </div>
         {% endif %}
-        
       </div>
     </div>
   </div>
 </div>
-
-{% endblock %}
-
-{% block css %}
-<style>
-  main {
-    display: flex;
-    width: 100vw;
-    height: 90vh;
-    background-color: rgb(214, 239, 241);
-    background-image: url('https://images.unsplash.com/photo-1542128962-9d50ad7bf014?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y2FyJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1000&q=60');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    flex-flow: column;
-    justify-content: left;
-    align-items: left;
-    color: rgba(79, 58, 237, 0.97);
-    font-size: 1rem;
-    gap: 1rem;
-  }
-</style>
-
 {% endblock %}
