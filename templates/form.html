@@ -12,32 +12,26 @@
             </p>
             {% endfor %}
             {% endif %}
-            
+
             <form class="shadow-lg p-3 rounded bg-light" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="parkingplace" class="form-label">Parking Place</label>
-                    <input type="parking place" class="form-control" id="parkingplace" name="name" placeholder="Rajaji puram parking">
+                    <input type="parking place" class="form-control" id="parkingplace" name="name"
+                        placeholder="Rajaji puram parking">
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea rows="3" cols="90" type="parking place" class="form-control" id="address" name="address" placeholder="Address"></textarea>
+                    <textarea rows="3" cols="90" type="parking place" class="form-control" id="address" name="address"
+                        placeholder="Address"></textarea>
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="myFile" class="form-label">Parking Image</label>
-                    <input type="file" id="myFile" name="file">    
+                    <input type="file" id="myFile" name="camera_still">
                 </div>
                 <div class="mb-3">
-                    <div class="row">
-                        <div class="col">
-                            <label for="confirmpass" class="form-label">width</label>
-                            <input type="text" class="form-control" id="width" name="width" placeholder="107">
-                        </div>
-                        <div class="col">
-                            <label for="confirmpass" class="form-label">height</label>
-                            <input type="text" class="form-control" id="height" name="height" placeholder="48">             
-                        </div>
-                    </div> 
+                    <label for="myVideo" class="form-label">Parking Video Source</label>
+                    <input type="file" id="myVideo" name="camera_source">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -55,11 +49,11 @@
         justify-content: center;
         align-items: center;
     }
-    
+
     h1 {
         color: rgb(69, 125, 255);
     }
-    
+
     main {
         background-color: #efefef;
         background-image: url('https://images.unsplash.com/photo-1464851707681-f9d5fdaccea8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=933&q=80');

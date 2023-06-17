@@ -2,28 +2,32 @@
 {% extends 'layout/base.html' %}
 
 {% block body %}
-<h1>Welcome to Flask</h1>
-<p>Very basic sample page</p>
+
+<h1 class="my-4 text-bg-secondary"><b> Welcome to Project</b></h1>
+<p class="my-4 text-bg-success">parking Space counter</p>
 
 {% endblock %}
+
 {% block css %}
 <style>
-  main {
+   main{
     display: flex;
-    width: 100vw;
+    width: 100%;
     height: 90vh;
-    background-color: rgb(182, 248, 252);
-    background-image: url(https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80);
+    background-color: rgb(248,248,244);
+    background-image: url('https://images.unsplash.com/photo-1597985933897-cfbf9e2464d0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: bottom;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    color: rgba(33, 7, 231, 0.97);
-    font-size: 3rem;
+    font-size: 2rem;
     gap: 1rem;
-  }
+    
+    
+
+   }
 </style>
 
 {% endblock %}

@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, flash, session, url_for
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-import parking_detector as pkd
-from werkzeug.utils import secure_filename
 import os
+from datetime import datetime
+import parking_editor as pked
+import parking_detector as pkd
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, flash, session, url_for
 
 db = SQLAlchemy()
 
@@ -34,6 +35,8 @@ class ParkingLocation(db.Model):
     image_path = db.Column(db.String())
     width = db.Column(db.Integer)
     height = db.Column(db.Integer)
+    posfile = db.Column(db.String, default="")
+    source = db.Column(db.String, default="")
     created_on = db.Column(db.DateTime, default=datetime.now)
 
     def __str__(self):
@@ -42,10 +45,12 @@ class ParkingLocation(db.Model):
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/app.sqlite'
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['UPLOAD_FOLDER'] = 'uploads'
+    app.config['UPLOAD_FOLDER'] = 'static/uploads/images'
+    app.config['VIDEO_FOLDER'] = 'static/uploads/videos'
     app.secret_key = 'supersecretkeythatnooneknows'
+    app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
     db.init_app(app)
     return app
 
@@ -134,54 +139,80 @@ def parking_detection():
     data = db.session.query(ParkingLocation).all()
     return render_template('parking_system.html', locs=data)
 
-@app.route('/detect/start')
-def start_detection():
-    return render_template('expression')
-
 @app.route('/detect/camera/<int:pid>')
 def open_parking_window(pid):
     try:
         row = db.session.query(ParkingLocation).get(pid)
-    except:
-        pass
-    return render_template('expression')
+        print(f'{row.id}, {row.name}')
+        if os.path.exists(row.posfile):
+            pkd.detector(posfile=row.posfile, video=row.source)
+            flash('No location setting found for this parking', 'warning')
+    except Exception as e:
+        print('error',e)
+        flash(f"{e}", 'danger')
+
+    return redirect('/detect')
+
+@app.route('/edit/parking/<int:id>')
+def parking_space_picker(id):
+    try:
+        row = db.session.query(ParkingLocation).get(id)
+        parking_img = row.image_path
+        parking=row.name
+        w = row.width
+        h = row.height
+        pked.open_parking_image_window(parking_img, params=dict(parking=parking,w=w, h=h ))
+        # save name in posfile columns
+    except Exception as e:
+        print(e)
+        flash(f'{e}', 'danger')
+    return redirect('/detect')
 
 
 @app.route('/form', methods=['GET','POST'])
 def form():
     if request.method=='POST':
-        if 'file' not in request.files:
+        if 'camera_still' not in request.files:
             flash('No file part','danger')
             return redirect(request.url)
         name = request.form.get('name')
         addr = request.form.get('address')
-        w = request.form.get('width')
-        h = request.form.get('height')
-        file = request.files['file']
+        w = "0"
+        h = "0"
+        file = request.files['camera_still']
+        source = request.files.get('camera_source')
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
         if file and name and addr and w and h:
-            try:
+            # try:
                 filename = secure_filename(file.filename)
                 path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(path)
-                parking = ParkingLocation(name=name, address=addr,image_path=path, width=int(w), height=int(h))
+                if source: 
+                    source_name = secure_filename(source.filename)
+                    print( "source name", source_name) 
+                    source_path = os.path.join(app.config['VIDEO_FOLDER'], source_name)
+                    print("source path", source_path)
+                    file.save(source_path)
+                else:
+                    source_path =  '0'
+                    print("source path", source)
+                parking = ParkingLocation(name=name, address=addr,image_path=path, width=int(w), height=int(h), posfile=name, source=source_path)
                 db.session.add(parking)
                 db.session.commit()
                 flash("Parking information saved successfully")
-                return redirect('/')
-            except:
-                flash("some error occurred")
+                return redirect('/dashboard')
+            # except Exception as e:
+            #     flash(f"some error occurred {e}")
         else:
-            flash("Some error occurred.")
-
+            flash("Some data missing")
     return render_template('form.html')
-
+    
 @app.route('/dashboard', methods=['GET','POST'])
-def show_dashboard():
+def dashboard():
     data = db.session.query(ParkingLocation).all()
-    return render_template('dashboard.html', locs=data)     
+    return render_template('dashboard.html', locs=data)  
 
 @app.route('/parking/delete/<int:pid>')
 def delete_parking(pid):
@@ -193,7 +224,6 @@ def delete_parking(pid):
             flash("record deleted")
     except:
         flash("Could not delete entry")
-    return redirect('/dashboard')    
-
+    return redirect('/dashboard')
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True) 
